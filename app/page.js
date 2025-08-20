@@ -81,46 +81,26 @@ export default function Home() {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your message..."
           rows={4}
-          className="w-full p-4 rounded-xl border border-gray-300 shadow-md 
+          className="w-full p-4  rounded-xl border border-gray-300 shadow-md 
                      focus:outline-none focus:ring-2 focus:ring-orange-400 
                      resize-none"
         />
       </div>
 
       {/* Buttons */}
-      <div className="flex gap-6 mb-6 justify-center">
-        {/* Chat Button */}
-        <button
-          onClick={handleChat}
-          className="px-6 py-2 rounded-xl hover:bg-orange-600 
-                     text-white font-semibold flex items-center gap-2 
-                     shadow-md transition-all"
-        >
-          {loading ? (
-            <span className="animate-pulse">Loading...</span>
-          ) : (
-            <>
-              <span className="text-xl leading-none">💬</span>
-              <span className="leading-none">Chat</span>
-            </>
-          )}
-        </button>
 
-        {/* Stream Chat Button */}
-        <button
-          onClick={handleStreamChat}
-          className="px-6 py-2 rounded-xl hover:bg-teal-700 
-                     text-white font-semibold flex items-center gap-2 
-                     shadow-md transition-all"
-        >
-          {loading ? (
-            <span className="animate-pulse">Loading...</span>
-          ) : (
-            <>
-              <span className="text-xl leading-none">⚡</span>
-              <span >Stream Chat</span>
-            </>
-          )}
+          <div>
+        <button 
+        className=" font-semibold items-center rounded-xl bg-amber-600 hover:bg-orange-400  "
+        onClick={handleChat}
+        style={{padding:"10px 20px"}}>
+          {loading ? "Loading...": "💬Chat"}
+        </button>
+        <button 
+        className=" font-semibold items-center rounded-xl bg-teal-800 hover:bg-teal-700  "
+        onClick={handleStreamChat}
+        style={{padding:"10px 20px", margin: "5px"}}>
+          {loading ? "Loading...": "⚡Power Chat"}
         </button>
       </div>
 
