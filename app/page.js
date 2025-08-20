@@ -118,7 +118,7 @@ export default function Home() {
           ) : (
             <>
               <span className="text-xl leading-none">⚡</span>
-              <span className="leading-none">Stream Chat</span>
+              <span >Stream Chat</span>
             </>
           )}
         </button>
