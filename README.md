@@ -28,6 +28,6 @@ Here’s a preview of the chatbot UI:
 - **Frontend**: React + Next.js 13  
 - **Styling**: TailwindCSS  
 - **Backend**: Next.js API Routes  
-- **AI API**: [OpenRouter](https://openrouter.ai/) (uses GPT models)  
+- **AI API**: OpenAI
 
 
