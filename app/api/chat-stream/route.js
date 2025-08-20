@@ -15,6 +15,10 @@ export async function POST(request) {
       }),
     });
 
+    console.log("hi");
+    console.log(response);
+    
+
     // Reader + encoder/decoder
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
