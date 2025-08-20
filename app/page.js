@@ -127,7 +127,7 @@ export default function Home() {
           <div className="border border-teal-600 bg-gradient-to-r from-green-600/20 to-teal-600/20 
                           p-4 rounded-xl shadow-lg text-gray-100">
             <h2 className="font-bold text-teal-400 mb-2 flex items-center gap-2">
-              ⚡ <span>Streaming Response:</span>
+              ⚡ <span>Power-Chat Response:</span>
             </h2>
             <p className="whitespace-pre-wrap text-gray-200 leading-relaxed">
               {streamResponse}
