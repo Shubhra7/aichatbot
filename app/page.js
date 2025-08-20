@@ -1,7 +1,6 @@
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
 import { useState } from "react";
+import styles from "./page.module.css";
 
 export default function Home() {
   const [message, setMessage] = useState("");
@@ -10,108 +9,151 @@ export default function Home() {
   const [loading, setLoading] = useState("");
   const [streamResponse, setStreamResponse] = useState("");
 
+  // Normal Chat Handler
   const handleChat = async () => {
-    setLoading(true)
-    setResponse("")
+    setLoading(true);
+    setResponse("");
 
     try {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type" : "application/json"
-          },
-          body: JSON.stringify({message})
-        })
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
 
-        const data = await res.json()
-        setResponse(data.response)
-      
+      const data = await res.json();
+      setResponse(data.response);
     } catch (error) {
-      setResponse("Error: "+ error.message)
+      setResponse("Error: " + error.message);
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
-  const handleStreamChat = async () =>{
-    setLoading(true)
-    setStreaming(true)
-    setStreamResponse("")
+  // Streaming Chat Handler
+  const handleStreamChat = async () => {
+    setLoading(true);
+    setStreaming(true);
+    setStreamResponse("");
+
     try {
-      const res = await fetch("/api/chat-stream",{
+      const res = await fetch("/api/chat-stream", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({message})
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
 
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
 
-      while(true){
-        const {done, value} = await reader.read()
-        if(done) break;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-        const chunk = decoder.decode(value)
-        const lines = chunk.split("\n")
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
 
-        for(const line of lines){
-          if(line.startsWith("data: ")){
-            const data = JSON.parse(line.slice(6))
-            setStreamResponse((prev) => prev + data.content)
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = JSON.parse(line.slice(6));
+            setStreamResponse((prev) => prev + data.content);
           }
         }
       }
     } catch (error) {
-       setStreamResponse("Error: "+ error.message)
+      setStreamResponse("Error: " + error.message);
     }
-    setLoading(false)
-  }
+
+    setLoading(false);
+  };
 
   return (
-    <div className={styles.page}>
-      <h1>Get Started with Shubhra nextjs and AI</h1>
-      <div>
+    <div className={`${styles.page} min-h-screen flex flex-col items-center p-6`}>
+      {/* Title */}
+      <h1 className="text-4xl font-extrabold text-white mb-6 drop-shadow-lg">
+        Shubhra&apos;s <span className="text-orange-400">AI ChatBot</span>
+      </h1>
+
+      {/* Input */}
+      <div className="w-full max-w-2xl mb-4">
         <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Enter your message"
-        rows={4}
-        style={{width: "100%", marginBottom: "10px"}}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message..."
+          rows={4}
+          className="w-full p-4 rounded-xl border border-gray-300 shadow-md 
+                     focus:outline-none focus:ring-2 focus:ring-orange-400 
+                     resize-none"
         />
       </div>
-      <div>
-        <button 
-        onClick={handleChat}
-        style={{padding:"10px 20px", backgroundColor: "orange"}}>
-          {loading ? "Loading...": "Chat"}
+
+      {/* Buttons */}
+      <div className="flex gap-6 mb-6 justify-center">
+        {/* Chat Button */}
+        <button
+          onClick={handleChat}
+          className="px-6 py-2 rounded-xl hover:bg-orange-600 
+                     text-white font-semibold flex items-center gap-2 
+                     shadow-md transition-all"
+        >
+          {loading ? (
+            <span className="animate-pulse">Loading...</span>
+          ) : (
+            <>
+              <span className="text-xl leading-none">💬</span>
+              <span className="leading-none">Chat</span>
+            </>
+          )}
         </button>
-        <button 
-        onClick={handleStreamChat}
-        style={{padding:"10px 20px", backgroundColor: "green", margin: "5px"}}>
-          {loading ? "Loading...": "Stream Chat"}
+
+        {/* Stream Chat Button */}
+        <button
+          onClick={handleStreamChat}
+          className="px-6 py-2 rounded-xl hover:bg-teal-700 
+                     text-white font-semibold flex items-center gap-2 
+                     shadow-md transition-all"
+        >
+          {loading ? (
+            <span className="animate-pulse">Loading...</span>
+          ) : (
+            <>
+              <span className="text-xl leading-none">⚡</span>
+              <span className="leading-none">Stream Chat</span>
+            </>
+          )}
         </button>
       </div>
-      <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "10px",
-        whiteSpace: "pre-wrap",
-        fontSize: "24px"
-      }}
-      >
-        {response}
-      </div>
-      <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "10px",
-        whiteSpace: "pre-wrap",
-        fontSize: "24px"
-      }}
-      >
-        {streamResponse}
+
+      {/* Responses */}
+      <div className="w-full max-w-2xl space-y-4">
+        {/* Normal Bot Response */}
+        {response && (
+          <div className="border border-gray-700 bg-gray-900/60 text-gray-100 
+                          rounded-xl p-4 shadow-lg">
+            <h2 className="font-bold text-green-400 mb-2 flex items-center gap-2">
+              🤖 <span>Bot Response:</span>
+            </h2>
+            <p className="whitespace-pre-wrap text-gray-200 leading-relaxed">
+              {response}
+            </p>
+          </div>
+        )}
+
+        <br />
+        <br />
+
+        {/* Streaming Response */}
+        {streamResponse && (
+          <div className="border border-teal-600 bg-gradient-to-r from-green-600/20 to-teal-600/20 
+                          p-4 rounded-xl shadow-lg text-gray-100">
+            <h2 className="font-bold text-teal-400 mb-2 flex items-center gap-2">
+              ⚡ <span>Streaming Response:</span>
+            </h2>
+            <p className="whitespace-pre-wrap text-gray-200 leading-relaxed">
+              {streamResponse}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
