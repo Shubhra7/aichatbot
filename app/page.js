@@ -71,7 +71,7 @@ export default function Home() {
     <div className={`${styles.page} min-h-screen flex flex-col items-center p-6`}>
       {/* Title */}
       <h1 className="text-4xl font-extrabold text-white mb-6 drop-shadow-lg">
-        Shubhra&apos;s <span className="text-orange-400">AI ChatBot</span>
+        Shubhra&apos;s <span className="text-orange-400">AI GPT</span>
       </h1>
 
       {/* Input */}
@@ -155,6 +155,17 @@ export default function Home() {
           </div>
         )}
       </div>
+      <footer className="mt-10 text-sm text-gray-400 text-center">
+        Built by 🚀 
+        <a 
+          href="https://github.com/Shubhra7" 
+          target="_blank" 
+          className="text-orange-400 hover:underline ml-1"
+        >
+          @Shubhrajit_Ghosh
+        </a>
+      </footer>
+
     </div>
   );
 }
